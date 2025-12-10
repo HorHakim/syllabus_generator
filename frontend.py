@@ -32,7 +32,7 @@ def user_interface():
 		user_input = streamlit.chat_input("Copie colle ton pavet je m'occupe de tout bg !")
 
 		if user_input:
-			streamlit.session_state.syllabus_agent.ask_llm(user_interaction=user_input, model=selected_model)
+			streamlit.session_state.syllabus_agent.generate_syllabus(module_description=user_input)
 			show_discussion_history(history_placeholder)
 
 
