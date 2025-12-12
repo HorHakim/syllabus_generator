@@ -4,6 +4,10 @@ from weasyprint import HTML
 from syllabus_agent import SyllabusAgent
 from synthesizer_agent import SynthetizerAgent
 
+
+import io
+
+
 class Backend:
 	def __init__(self):
 		self.synthesizer_agent = SynthetizerAgent()
@@ -29,12 +33,16 @@ class Backend:
 	def export_syllabus(self, file_type):
 		syllabus_content = self.syllabus_agent.get_syllabus_content()
 		if file_type == "md":
-			with open("/tmp/syllabus.md", "w") as file:
-				file.write(syllabus_content)
+			buffer_md = io.BytesIO()
+			buffer_md.write(syllabus_content.encode("utf-8"))
+			return buffer_md
+		
 		elif file_type == "pdf":
+			buffer_pdf = io.BytesIO()
 			html = markdown.markdown(
 					syllabus_content,
 					extensions=["extra", "codehilite", "tables"]
 				)
 
-			HTML(string=html).write_pdf("/tmp/syllabus.pdf")
+			HTML(string=html).write_pdf(buffer_pdf)
+			return buffer_pdf
