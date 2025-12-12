@@ -32,20 +32,21 @@ def user_interface():
 	history_placeholder = streamlit.empty() 
 	show_discussion_history(history_placeholder)
 	
-	user_input = streamlit.chat_input("Copie colle ton pavé je m'occupe de tout bg !")
-	uploaded_files = streamlit.file_uploader(
-					"📎 Charge tes pièces jointes",
-					type=["pdf", "docx", "md", "txt"],
-					accept_multiple_files=True,
-					key=streamlit.session_state.uploader_key
-					)
+	if len(streamlit.session_state.backend.syllabus_agent.history) == 1:
+		user_input = streamlit.chat_input("Copie colle ton pavé je m'occupe de tout bg !")
+		uploaded_files = streamlit.file_uploader(
+						"📎 Charge tes pièces jointes",
+						type=["pdf", "docx", "md", "txt"],
+						accept_multiple_files=True,
+						key=streamlit.session_state.uploader_key
+						)
 
 
-	if user_input:
-		streamlit.session_state.backend.generate_syllabus(user_input=user_input, list_uploaded_files=uploaded_files)
-		show_discussion_history(history_placeholder)
-		streamlit.session_state.uploader_key += 1
-		streamlit.rerun()
+		if user_input:
+			streamlit.session_state.backend.generate_syllabus(user_input=user_input, list_uploaded_files=uploaded_files)
+			show_discussion_history(history_placeholder)
+			streamlit.session_state.uploader_key += 1
+			streamlit.rerun()
 
 
 

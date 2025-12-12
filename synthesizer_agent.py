@@ -1,6 +1,6 @@
 from agent import Agent 
 import pdfplumber
-
+from docx import Document
 import os
 
 class SynthetizerAgent(Agent):
@@ -17,7 +17,9 @@ class SynthetizerAgent(Agent):
 
 	@staticmethod
 	def read_docx(uploaded_file):
-		return ""
+		return "\n".join([paragraph.text for paragraph in Document(uploaded_file).paragraphs])
+
+
 
 
 	@staticmethod
@@ -27,8 +29,12 @@ class SynthetizerAgent(Agent):
 			return SynthetizerAgent.read_pdf(uploaded_file)
 		
 		elif os.path.splitext(uploaded_file.name)[1] == ".docx":
-			print("docx : not supported yet")
 			return SynthetizerAgent.read_docx(uploaded_file)
+
+		elif os.path.splitext(uploaded_file.name)[1] in [".md", ".txt"]:
+			return uploaded_file.read().decode("utf-8")
+
+
 
 
 	def synthetize(self, uploaded_file):

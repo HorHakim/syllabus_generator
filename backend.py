@@ -12,11 +12,12 @@ class Backend:
 
 		files_content = [self.synthesizer_agent.synthetize(uploaded_file) for uploaded_file in list_uploaded_files]
 
-		course_description = "Description de l'utilisateur:  \n"
+		course_description = "**Description de l'utilisateur:**  \n"
 		course_description += f"{user_input}  \n"
-		course_description += "Contenu des fichiers:  \n"
-		for index_file, file_content in enumerate(files_content):
-			course_description += f"Fichier {index_file}:  \n"
-			course_description += f"{file_content}  \n"
+		if files_content:
+			course_description += "**Contenu des fichiers:**  \n"
+			for index_file, file_content in enumerate(files_content):
+				course_description += f"Fichier {index_file}:  \n"
+				course_description += f"{file_content}  \n"
 
 		self.syllabus_agent.ask_llm(user_input=course_description)
