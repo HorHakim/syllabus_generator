@@ -1,3 +1,6 @@
+import markdown
+from weasyprint import HTML
+
 from syllabus_agent import SyllabusAgent
 from synthesizer_agent import SynthetizerAgent
 
@@ -21,3 +24,17 @@ class Backend:
 				course_description += f"{file_content}  \n"
 
 		self.syllabus_agent.ask_llm(user_input=course_description)
+
+
+	def export_syllabus(self, file_type):
+		syllabus_content = self.syllabus_agent.get_syllabus_content()
+		if file_type == "md":
+			with open("syllabus.md", "w") as file:
+				file.write(syllabus_content)
+		elif file_type == "pdf":
+			html = markdown.markdown(
+					syllabus_content,
+					extensions=["extra", "codehilite", "tables"]
+				)
+
+			HTML(string=html).write_pdf("syllabus.pdf")

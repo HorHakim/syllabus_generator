@@ -26,6 +26,23 @@ def show_discussion_history(history_placeholder):
 					streamlit.write(message["content"])
 
 
+def download_md_file_button():
+	streamlit.download_button(
+	label="📄 Télécharger le MD",
+	data=open("syllabus.md", "rb").read(),
+	file_name="syllabus.md",
+	mime="text/markdown"
+	)
+
+
+def download_pdf_file_button():
+    streamlit.download_button(
+        label="📄 Télécharger le PDF",
+        data=open("syllabus.pdf", "rb"),
+        file_name="syllabus.pdf",
+        mime="application/pdf"
+    )
+
 
 def user_interface():
 	init_header()
@@ -48,6 +65,15 @@ def user_interface():
 			streamlit.session_state.uploader_key += 1
 			streamlit.rerun()
 
+	else:
+		with streamlit.container():
+			streamlit.session_state.backend.export_syllabus(file_type="md")
+			streamlit.session_state.backend.export_syllabus(file_type="pdf")
+			_, col1, col2, _ = streamlit.columns([1, 2, 2, 1])
+			with col1:
+				download_md_file_button()
+			with col2:
+				download_pdf_file_button()
 
 
 if __name__ == "__main__":
