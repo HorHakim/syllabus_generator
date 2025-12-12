@@ -26,19 +26,19 @@ def show_discussion_history(history_placeholder):
 					streamlit.write(message["content"])
 
 
-def download_md_file_button():
+def download_md_file_button(buffer_md):
 	streamlit.download_button(
 	label="📄 Télécharger le MD",
-	data=open("/tmp/syllabus.md", "rb").read(),
+	data=buffer_md.getvalue(),
 	file_name="syllabus.md",
 	mime="text/markdown"
 	)
 
 
-def download_pdf_file_button():
+def download_pdf_file_button(buffer_pdf):
     streamlit.download_button(
         label="📄 Télécharger le PDF",
-        data=open("/tmp/syllabus.pdf", "rb"),
+        data=buffer_pdf.getvalue(),
         file_name="syllabus.pdf",
         mime="application/pdf"
     )
@@ -67,13 +67,13 @@ def user_interface():
 
 	else:
 		with streamlit.container():
-			streamlit.session_state.backend.export_syllabus(file_type="md")
-			streamlit.session_state.backend.export_syllabus(file_type="pdf")
+			buffer_md = streamlit.session_state.backend.export_syllabus(file_type="md")
+			buffer_pdf = streamlit.session_state.backend.export_syllabus(file_type="pdf")
 			_, col1, col2, _ = streamlit.columns([1, 2, 2, 1])
 			with col1:
-				download_md_file_button()
+				download_md_file_button(buffer_md)
 			with col2:
-				download_pdf_file_button()
+				download_pdf_file_button(buffer_pdf)
 
 
 if __name__ == "__main__":
