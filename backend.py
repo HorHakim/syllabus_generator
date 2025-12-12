@@ -29,7 +29,7 @@ class Backend:
 	def export_syllabus(self, file_type):
 		syllabus_content = self.syllabus_agent.get_syllabus_content()
 		if file_type == "md":
-			with open("syllabus.md", "w") as file:
+			with open("./syllabus.md", "w") as file:
 				file.write(syllabus_content)
 		elif file_type == "pdf":
 			html = markdown.markdown(
@@ -37,4 +37,4 @@ class Backend:
 					extensions=["extra", "codehilite", "tables"]
 				)
 
-			HTML(string=html).write_pdf("syllabus.pdf")
+			HTML(string=html).write_pdf("./syllabus.pdf")

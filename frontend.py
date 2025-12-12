@@ -29,7 +29,7 @@ def show_discussion_history(history_placeholder):
 def download_md_file_button():
 	streamlit.download_button(
 	label="📄 Télécharger le MD",
-	data=open("syllabus.md", "rb").read(),
+	data=open("./syllabus.md", "rb").read(),
 	file_name="syllabus.md",
 	mime="text/markdown"
 	)
@@ -38,7 +38,7 @@ def download_md_file_button():
 def download_pdf_file_button():
     streamlit.download_button(
         label="📄 Télécharger le PDF",
-        data=open("syllabus.pdf", "rb"),
+        data=open("./syllabus.pdf", "rb"),
         file_name="syllabus.pdf",
         mime="application/pdf"
     )
