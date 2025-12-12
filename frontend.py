@@ -26,6 +26,14 @@ def show_discussion_history(history_placeholder):
 					streamlit.write(message["content"])
 
 
+def download_md_file_button():
+	streamlit.download_button(
+	label="Télécharger le fichier Markdown",
+	data=open("syllabus.md", "rb").read(),
+	file_name="syllabus.md",
+	mime="text/markdown"
+	)
+
 
 def user_interface():
 	init_header()
@@ -47,6 +55,10 @@ def user_interface():
 			show_discussion_history(history_placeholder)
 			streamlit.session_state.uploader_key += 1
 			streamlit.rerun()
+
+	else:
+		streamlit.session_state.backend.export_syllabus()
+		download_md_file_button()
 
 
 

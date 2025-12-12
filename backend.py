@@ -21,3 +21,10 @@ class Backend:
 				course_description += f"{file_content}  \n"
 
 		self.syllabus_agent.ask_llm(user_input=course_description)
+
+
+	def export_syllabus(self):
+		syllabus_content = self.syllabus_agent.get_syllabus_content()
+
+		with open("syllabus.md", "w") as file:
+			file.write(syllabus_content)
